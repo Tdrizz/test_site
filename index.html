@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise Message</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f7f7;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            color: #4f4f4f;
+            transition: background-color 0.5s;
+        }
+        .container {
+            text-align: center;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            background-color: #fff;
+            transition: opacity 0.5s ease;
+        }
+        h1 {
+            font-size: 2.5em;
+            color: #ff8c94;
+        }
+        p {
+            font-size: 1.2em;
+            margin-top: 20px;
+        }
+        .heart {
+            color: #ff5c8d;
+            font-size: 1.8em;
+        }
+        .button {
+            background-color: #ff8c94;
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2em;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-top: 30px;
+            transition: background-color 0.3s ease;
+        }
+        .button:hover {
+            background-color: #ff5c8d;
+        }
+
+        /* Confetti animation */
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        .heart-animation {
+            font-size: 3em;
+            color: #ff5c8d;
+            animation: heartAnimation 1s ease-in-out infinite;
+        }
+
+        @keyframes heartAnimation {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.7; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="initial-container">
+        <h1>Hey There!</h1>
+        <p>Just wanted to say you’re awesome!<span class="heart">💖</span></p>
+        <p>Here's a fun surprise for you!</p>
+        <button class="button" id="show-surprise-button">Click Here for a Surprise!</button>
+    </div>
+
+    <!-- Hidden Container for Surprising Message -->
+    <div class="container" id="surprise-container" style="display: none;">
+        <h1>Congratulations! 🎉</h1>
+        <p>You are amazing!<span class="heart">💖💖💖</span></p>
+        <div class="heart-animation">💖💖💖</div>
+    </div>
+
+    <div class="confetti" id="confetti"></div>
+
+    <script>
+        // Get the button and containers
+        const button = document.getElementById('show-surprise-button');
+        const initialContainer = document.getElementById('initial-container');
+        const surpriseContainer = document.getElementById('surprise-container');
+        const confetti = document.getElementById('confetti');
+
+        // Function to show the surprise message and confetti
+        function showSurprise() {
+            initialContainer.style.display = 'none'; // Hide the initial content
+            surpriseContainer.style.display = 'block'; // Show the surprise content
+
+            // Trigger confetti
+            triggerConfetti();
+        }
+
+        // Attach the showSurprise function to the button click
+        button.addEventListener('click', showSurprise);
+
+        // Function to generate confetti animation
+        function triggerConfetti() {
+            const numberOfConfetti = 200;
+            const confettiColors = ['#ff5c8d', '#ff8c94', '#f7a8b8', '#e0b0ff', '#f9d5d3'];
+
+            for (let i = 0; i < numberOfConfetti; i++) {
+                const confettiPiece = document.createElement('div');
+                confettiPiece.style.position = 'absolute';
+                confettiPiece.style.width = `${Math.random() * 10 + 5}px`;
+                confettiPiece.style.height = `${Math.random() * 10 + 5}px`;
+                confettiPiece.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
+                confettiPiece.style.left = `${Math.random() * window.innerWidth}px`;
+                confettiPiece.style.animation = `fall ${Math.random() * 3 + 2}s linear infinite`;
+
+                confetti.appendChild(confettiPiece);
+
+                // Remove the confetti piece after it falls
+                setTimeout(() => {
+                    confettiPiece.remove();
+                }, 3000);
+            }
+        }
+    </script>
+</body>
+</html>
