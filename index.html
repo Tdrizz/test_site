@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surprise Message</title>
+    <title>Surprise Message with Song</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -87,22 +87,37 @@
     <div class="container" id="surprise-container" style="display: none;">
         <h1>Congratulations! 🎉</h1>
         <p>You are amazing!<span class="heart">💖💖💖</span></p>
+        <p id="custom-message"></p>
         <div class="heart-animation">💖💖💖</div>
     </div>
 
     <div class="confetti" id="confetti"></div>
 
+    <!-- Audio Element -->
+    <audio id="audio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
+
     <script>
-        // Get the button and containers
+        // Get the button, containers, and audio element
         const button = document.getElementById('show-surprise-button');
         const initialContainer = document.getElementById('initial-container');
         const surpriseContainer = document.getElementById('surprise-container');
         const confetti = document.getElementById('confetti');
+        const audio = document.getElementById('audio');
+        const customMessage = document.getElementById('custom-message');
 
-        // Function to show the surprise message and confetti
+        // Custom message to display when button is clicked
+        const message = "I really like you Grace, you're breathtaking, I get butterflies when I'm with you. I hope you like this, corny or not I wanted to do a lil something different.";
+
+        // Function to show the surprise message, play the audio, and trigger confetti
         function showSurprise() {
             initialContainer.style.display = 'none'; // Hide the initial content
             surpriseContainer.style.display = 'block'; // Show the surprise content
+
+            // Display custom message
+            customMessage.innerText = message;
+
+            // Play the audio
+            audio.play();
 
             // Trigger confetti
             triggerConfetti();
