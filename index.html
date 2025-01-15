@@ -13,6 +13,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
+            overflow: hidden;
             color: #4f4f4f;
             transition: background-color 0.5s;
         }
@@ -23,6 +24,9 @@
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             background-color: #fff;
             transition: opacity 0.5s ease;
+            z-index: 2;
+            width: 100%;
+            max-width: 400px;
         }
         h1 {
             font-size: 3em;
@@ -61,6 +65,7 @@
             font-size: 3em;
             color: #ff5c8d;
             animation: heartAnimation 1s ease-in-out infinite;
+            z-index: 1;
         }
 
         @keyframes heartAnimation {
@@ -108,6 +113,75 @@
                 transform: scale(1);
             }
         }
+
+        /* Background stars effect */
+        .star {
+            position: absolute;
+            background-color: #fff;
+            border-radius: 50%;
+            animation: starAnimation 3s ease-in-out infinite;
+        }
+
+        @keyframes starAnimation {
+            0% {
+                transform: scale(0.5) translateY(0);
+                opacity: 0.5;
+            }
+            50% {
+                transform: scale(1) translateY(-50px);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(0.5) translateY(0);
+                opacity: 0.5;
+            }
+        }
+
+        /* Mobile optimization */
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+                justify-content: flex-start;
+                padding: 20px;
+            }
+
+            .container {
+                padding: 20px;
+                width: 100%;
+                max-width: 100%;
+                margin-top: 20px;
+            }
+
+            h1 {
+                font-size: 2.5em;
+            }
+
+            p {
+                font-size: 1.2em;
+            }
+
+            .button {
+                padding: 10px 25px;
+                font-size: 1.1em;
+            }
+        }
+
+        /* Extra mobile styling */
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2em;
+            }
+
+            p {
+                font-size: 1.1em;
+            }
+
+            .button {
+                font-size: 1em;
+                padding: 8px 20px;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -120,8 +194,7 @@
 
     <!-- Hidden Container for Surprising Message -->
     <div class="container" id="surprise-container">
-        <h1></h1>
-        <p>You are Beautiful!<span class="heart">💖💖💖</span></p>
+        <h1>Let Me Make You Mine.</h1>
         <p id="custom-message"></p>
     </div>
 
@@ -162,7 +235,7 @@
                 heart.classList.add('heart-animation');
                 heart.innerText = '💖';
                 heart.style.left = `${Math.random() * window.innerWidth}px`;
-                heart.style.top = `${Math.random() * window.innerHeight}px`;
+                heart.style.top = `${Math.random() * (window.innerHeight - 200)}px`; // Avoid hearts overlapping message
                 heart.style.animationDuration = `${Math.random() * 2 + 1}s`; // Random animation duration
                 heart.style.animationDelay = `${Math.random() * 2}s`; // Random delay
                 heartsContainer.appendChild(heart);
@@ -173,6 +246,29 @@
                 }, 3000);
             }
         }
+
+        // Create background star effect
+        function createStars() {
+            for (let i = 0; i < 30; i++) {
+                const star = document.createElement('div');
+                star.classList.add('star');
+                star.style.width = `${Math.random() * 5 + 2}px`;
+                star.style.height = star.style.width;
+                star.style.left = `${Math.random() * window.innerWidth}px`;
+                star.style.top = `${Math.random() * window.innerHeight}px`;
+                star.style.animationDuration = `${Math.random() * 2 + 2}s`; // Random speed
+                star.style.animationDelay = `${Math.random() * 2}s`; // Random delay
+                document.body.appendChild(star);
+
+                // Remove star after animation completes
+                setTimeout(() => {
+                    star.remove();
+                }, 4000);
+            }
+        }
+
+        // Call createStars to generate stars in the background
+        createStars();
     </script>
 </body>
 </html>
