@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Surprise Message with Song</title>
+    <title>Surprise Message with Hearts</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -51,18 +51,9 @@
             background-color: #ff5c8d;
         }
 
-        /* Confetti animation */
-        .confetti {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
+        /* Heart flashing animation */
         .heart-animation {
+            position: absolute;
             font-size: 3em;
             color: #ff5c8d;
             animation: heartAnimation 1s ease-in-out infinite;
@@ -77,38 +68,33 @@
 </head>
 <body>
     <div class="container" id="initial-container">
-        <h1>Hey There!</h1>
-        <p>Just wanted to say you’re awesome!<span class="heart">💖</span></p>
-        <p>Here's a fun surprise for you!</p>
+        <h1>Hey Pookie</h1>
+        <p>Built You A Lil Some<span class="heart">💖</span></p>
+        <p>Click Me</p>
         <button class="button" id="show-surprise-button">Click Here for a Surprise!</button>
     </div>
 
     <!-- Hidden Container for Surprising Message -->
     <div class="container" id="surprise-container" style="display: none;">
-        <h1>Congratulations! 🎉</h1>
-        <p>You are amazing!<span class="heart">💖💖💖</span></p>
+        <h1>You're Beautiful</h1>
+        <p><span class="heart">💖💖💖</span></p>
         <p id="custom-message"></p>
-        <div class="heart-animation">💖💖💖</div>
     </div>
 
-    <div class="confetti" id="confetti"></div>
-
-    <!-- Audio Element -->
-    <audio id="audio" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" preload="auto"></audio>
+    <div id="hearts"></div>
 
     <script>
-        // Get the button, containers, and audio element
+        // Get the button, containers, and hearts element
         const button = document.getElementById('show-surprise-button');
         const initialContainer = document.getElementById('initial-container');
         const surpriseContainer = document.getElementById('surprise-container');
-        const confetti = document.getElementById('confetti');
-        const audio = document.getElementById('audio');
+        const heartsContainer = document.getElementById('hearts');
         const customMessage = document.getElementById('custom-message');
 
         // Custom message to display when button is clicked
         const message = "I really like you Grace, you're breathtaking, I get butterflies when I'm with you. I hope you like this, corny or not I wanted to do a lil something different.";
 
-        // Function to show the surprise message, play the audio, and trigger confetti
+        // Function to show the surprise message and trigger heart animations
         function showSurprise() {
             initialContainer.style.display = 'none'; // Hide the initial content
             surpriseContainer.style.display = 'block'; // Show the surprise content
@@ -116,35 +102,30 @@
             // Display custom message
             customMessage.innerText = message;
 
-            // Play the audio
-            audio.play();
-
-            // Trigger confetti
-            triggerConfetti();
+            // Trigger hearts animation
+            triggerHearts();
         }
 
         // Attach the showSurprise function to the button click
         button.addEventListener('click', showSurprise);
 
-        // Function to generate confetti animation
-        function triggerConfetti() {
-            const numberOfConfetti = 200;
-            const confettiColors = ['#ff5c8d', '#ff8c94', '#f7a8b8', '#e0b0ff', '#f9d5d3'];
+        // Function to generate flashing heart animations
+        function triggerHearts() {
+            const numberOfHearts = 20;  // Number of hearts to animate
 
-            for (let i = 0; i < numberOfConfetti; i++) {
-                const confettiPiece = document.createElement('div');
-                confettiPiece.style.position = 'absolute';
-                confettiPiece.style.width = `${Math.random() * 10 + 5}px`;
-                confettiPiece.style.height = `${Math.random() * 10 + 5}px`;
-                confettiPiece.style.backgroundColor = confettiColors[Math.floor(Math.random() * confettiColors.length)];
-                confettiPiece.style.left = `${Math.random() * window.innerWidth}px`;
-                confettiPiece.style.animation = `fall ${Math.random() * 3 + 2}s linear infinite`;
+            for (let i = 0; i < numberOfHearts; i++) {
+                const heart = document.createElement('div');
+                heart.classList.add('heart-animation');
+                heart.innerText = '💖';
+                heart.style.left = `${Math.random() * window.innerWidth}px`;
+                heart.style.top = `${Math.random() * window.innerHeight}px`;
+                heart.style.animationDuration = `${Math.random() * 2 + 1}s`; // Random animation duration
+                heart.style.animationDelay = `${Math.random() * 2}s`; // Random delay
+                heartsContainer.appendChild(heart);
 
-                confetti.appendChild(confettiPiece);
-
-                // Remove the confetti piece after it falls
+                // Remove heart after animation completes
                 setTimeout(() => {
-                    confettiPiece.remove();
+                    heart.remove();
                 }, 3000);
             }
         }
